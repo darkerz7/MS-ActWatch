@@ -1,0 +1,5 @@
+{
+	"_comment": "To enable specific buttons or triggers when banned, add the HammerID values ​​to the appropriate section",
+	"Buttons": ["4166", "4170"],
+	"Triggers": ["6293", "6295", "6297"]
+}

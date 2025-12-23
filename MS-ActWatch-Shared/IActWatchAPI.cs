@@ -1,0 +1,220 @@
+﻿using Sharp.Shared.Objects;
+
+namespace MS_ActWatch_Shared
+{
+    public struct SAWAPI_Ban
+    {
+        public bool bBanned;                //True if user is banned, false otherwise
+
+        public string sAdminName;           //Nickname admin who issued the ban
+        public string sAdminSteamID;        //SteamID admin who issued the ban
+        public int iDuration;               //Duration of the ban -1 - Temporary, 0 - Permamently, Positive value - time in minutes
+        public int iTimeStamp_Issued;       //Pass an integer variable by reference and it will contain the UNIX timestamp when the player will be unbanned/ when a player was banned if ban = Permamently/Temporary
+        public string sReason;              //The reason why the player was banned
+
+        public string sClientName;          //Nickname of the player who got banned
+        public string sClientSteamID;       //SteamID of the player who got banned
+
+        public SAWAPI_Ban()
+        {
+            bBanned = false;
+            sAdminName = "Console";
+            sAdminSteamID = "SERVER";
+            iDuration = 0;
+            iTimeStamp_Issued = Convert.ToInt32(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+            sReason = "No Reason";
+            sClientName = "";
+            sClientSteamID = "";
+        }
+    }
+
+    public interface IActWatchAPI
+    {
+        const string Identity = nameof(IActWatchAPI);
+
+        /**
+			* Checks if a player is currently button banned, if an integer variable is referenced the time of unban will be assigned to it.
+			*
+			* @param sSteamID		SteamID of the player to check for ban
+			* @return				Event SAWAPI_Ban struct
+			*
+			*/
+        void Native_ButtonWatch_IsClientBanned(string sSteamID);
+
+        /**
+			* Bans a player from button pressed.
+			*
+			* @param sawPlayer		SAWAPI_Ban struct to ban
+			*
+			* On error/errors:		Invalid player
+			*/
+        void Native_ButtonWatch_BanClient(SAWAPI_Ban sawPlayer);
+
+        /**
+			* Unbans a previously button banned player.
+			*
+			* @param sawPlayer		SAWAPI_Ban struct to unban
+			*
+			* On error/errors:		Invalid player
+			*/
+        void Native_ButtonWatch_UnbanClient(SAWAPI_Ban sawPlayer);
+
+        /**
+			* Forces a button ban status update.
+			*
+			* @param Player			IGameClient for forced update
+			*
+			* On error/errors:		Invalid player
+			*/
+        void Native_ButtonWatch_UpdateStatusBanClient(IGameClient Player);
+
+        /**
+			* Checks if a player is currently trigger banned, if an integer variable is referenced the time of unban will be assigned to it.
+			*
+			* @param sSteamID		SteamID of the player to check for ban
+			* @return				Event SAWAPI_Ban struct
+			*
+			*/
+        void Native_TriggerWatch_IsClientBanned(string sSteamID);
+
+        /**
+			* Bans a player from trigger touching.
+			*
+			* @param sawPlayer		SAWAPI_Ban struct to ban
+			*
+			* On error/errors:		Invalid player
+			*/
+        void Native_TriggerWatch_BanClient(SAWAPI_Ban sawPlayer);
+
+        /**
+			* Unbans a previously trigger banned player.
+			*
+			* @param sawPlayer		SAWAPI_Ban struct to unban
+			*
+			* On error/errors:		Invalid player
+			*/
+        void Native_TriggerWatch_UnbanClient(SAWAPI_Ban sawPlayer);
+
+        /**
+			* Forces a trigger ban status update.
+			*
+			* @param Player			IGameClient for forced update
+			*
+			* On error/errors:		Invalid player
+			*/
+        void Native_TriggerWatch_UpdateStatusBanClient(IGameClient Player);
+
+        /**
+			* Called when a player is button-banned by any means
+			*
+			* @param sawPlayer		Full information about ban in SEWAPI_Ban struct
+			*
+			* @return				None
+			*/
+        public delegate void Forward_BW_OnClientBanned(SAWAPI_Ban sawPlayer);
+        public event Forward_BW_OnClientBanned Forward_ButtonWatch_OnClientBanned;
+
+        /**
+			* Called when a player is button-unbanned by any means
+			*
+			* @param sawPlayer		Full information about unban in SEWAPI_Ban struct
+			* @return				None
+			*/
+        public delegate void Forward_BW_OnClientUnbanned(SAWAPI_Ban sawPlayer);
+        public event Forward_BW_OnClientUnbanned Forward_ButtonWatch_OnClientUnbanned;
+
+        /**
+			* Сalled when a player presses the door
+			*
+			* @param Player			IGameClient that was used item
+			* @param sDoorName		Name of the door that was pressed
+			* @param sDoorID		HammerID or _Entity.Index of the door that was pressed
+			* @return				None
+			*/
+        public delegate void Forward_BW_OnDoorPressed(IGameClient Player, string sDoorName, string sDoorID);
+        public event Forward_BW_OnDoorPressed Forward_ButtonWatch_OnDoorPressed;
+
+        /**
+			* Сalled when a player presses the physbox
+			*
+			* @param Player			IGameClient that was used item
+			* @param sPhysboxName	Name of the physbox that was pressed
+			* @param sPhysboxID		HammerID or _Entity.Index of the physbox that was pressed
+			* @return				None
+			*/
+        public delegate void Forward_BW_OnPhysboxPressed(IGameClient Player, string sPhysboxName, string sPhysboxID);
+        public event Forward_BW_OnPhysboxPressed Forward_ButtonWatch_OnPhysboxPressed;
+
+        /**
+			* Сalled when a player presses the button
+			*
+			* @param Player			IGameClient that was used item
+			* @param sButtonName	Name of the button that was pressed
+			* @param sButtonID		HammerID or _Entity.Index of the button that was pressed
+			* @return				None
+			*/
+        public delegate void Forward_BW_OnButtonPressed(IGameClient Player, string sButtonName, string sButtonID);
+        public event Forward_BW_OnButtonPressed Forward_ButtonWatch_OnButtonPressed;
+
+        /**
+		 * Called when response received from database
+		 *
+		 * @param sawPlayer		Full information about client in SAWAPI_Ban struct
+		 *
+		 * @return				None
+		 */
+        public delegate void Forward_BW_IsClientBannedResult(SAWAPI_Ban sawPlayer);
+        public event Forward_BW_IsClientBannedResult Forward_ButtonWatch_IsClientBannedResult;
+
+        /**
+			* Called when a player is trigger-banned by any means
+			*
+			* @param sawPlayer		Full information about ban in SEWAPI_Ban struct
+			*
+			* @return				None
+			*/
+        public delegate void Forward_TW_OnClientBanned(SAWAPI_Ban sawPlayer);
+        public event Forward_TW_OnClientBanned Forward_TriggerWatch_OnClientBanned;
+
+        /**
+			* Called when a player is trigger-unbanned by any means
+			*
+			* @param sawPlayer		Full information about unban in SEWAPI_Ban struct
+			* @return				None
+			*/
+        public delegate void Forward_TW_OnClientUnbanned(SAWAPI_Ban sawPlayer);
+        public event Forward_TW_OnClientUnbanned Forward_TriggerWatch_OnClientUnbanned;
+
+        /**
+			* Сalled when a player touching the trigger_once
+			*
+			* @param Player			IGameClient that was used item
+			* @param sTriggerName	Name of the trigger that was tounching
+			* @param sTriggerID		HammerID or _Entity.Index of the trigger that was tounching
+			* @return				None
+			*/
+        public delegate void Forward_TW_OnTriggerOnceTouch(IGameClient Player, string sTriggerName, string sTriggerID);
+        public event Forward_TW_OnTriggerOnceTouch Forward_TriggerWatch_OnTriggerOnceTouch;
+
+        /**
+			* Сalled when a player touching the trigger_multiple
+			*
+			* @param Player			IGameClient that was used item
+			* @param sTriggerName	Name of the trigger that was tounching
+			* @param sTriggerID		HammerID or _Entity.Index of the trigger that was tounching
+			* @return				None
+			*/
+        public delegate void Forward_TW_OnTriggerMultipleTouch(IGameClient Player, string sTriggerName, string sTriggerID);
+        public event Forward_TW_OnTriggerMultipleTouch Forward_TriggerWatch_OnTriggerMultipleTouch;
+
+        /**
+		 * Called when response received from database
+		 *
+		 * @param sawPlayer		Full information about client in SAWAPI_Ban struct
+		 *
+		 * @return				None
+		 */
+        public delegate void Forward_TW_IsClientBannedResult(SAWAPI_Ban sawPlayer);
+        public event Forward_TW_IsClientBannedResult Forward_TriggerWatch_IsClientBannedResult;
+    }
+}

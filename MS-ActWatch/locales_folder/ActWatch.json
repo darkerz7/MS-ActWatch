@@ -1,0 +1,347 @@
+{
+	"ActWatch.Chat.Tag.ActWatch": {
+		"en-us": "{{lightblue}}[{{green}}ActWatch{{lightblue}}]",
+		"ru-ru": "{{lightblue}}[{{green}}ActWatch{{lightblue}}]",
+		"zh-cn": "{{lightblue}}[{{green}}ActWatch{{lightblue}}]"
+	},
+	"ActWatch.Chat.Tag.Button": {
+		"en-us": "{{lightblue}}[{{green}}BW{{lightblue}}]",
+		"ru-ru": "{{lightblue}}[{{green}}Кнопки{{lightblue}}]",
+		"zh-cn": "{{lightblue}}[{{green}}按钮{{lightblue}}]"
+	},
+	"ActWatch.Chat.Tag.Trigger": {
+		"en-us": "{{lightblue}}[{{green}}Trigger{{lightblue}}]",
+		"ru-ru": "{{lightblue}}[{{green}}Триггер{{lightblue}}]",
+		"zh-cn": "{{lightblue}}[{{green}}扳机{{lightblue}}]"
+	},
+	"ActWatch.Chat.Admin.Buttons.Banned": {
+		"en-us": "{0}Admin {1} {2}restricted the player from pressing buttons {3}",
+		"ru-ru": "{0}Админ {1} {2}запретил нажимать на кнопки игроку {3}",
+		"zh-cn": "{0}管理员 {1} {2}阻止了玩家按下按钮 {3}"
+	},
+	"ActWatch.Chat.Admin.Buttons.Unrestricted": {
+		"en-us": "{0}Admin {1} {2}allowed the player to press buttons {3}",
+		"ru-ru": "{0}Админ {1} {2}разрешил нажимать на кнопки игроку {3}",
+		"zh-cn": "{0}管理员 {1} {2}允许玩家按下按钮 {3}"
+	},
+	"ActWatch.Chat.Admin.Triggers.Banned": {
+		"en-us": "{0}Admin {1} {2}restricted the player from touching the triggers {3}",
+		"ru-ru": "{0}Админ {1} {2}запретил прикасаться к триггерам игроку {3}",
+		"zh-cn": "{0}管理员 {1} {2}阻止玩家触碰扳机 {3}"
+	},
+	"ActWatch.Chat.Admin.Triggers.Unrestricted": {
+		"en-us": "{0}Admin {1} {2}allowed the player to touch the triggers {3}",
+		"ru-ru": "{0}Админ {1} {2}разрешил прикасаться к триггерам игроку {3}",
+		"zh-cn": "{0}管理员 {1} {2}允许玩家触摸扳机 {3}"
+	},
+	"ActWatch.Chat.Admin.Reason": {
+		"en-us": "{0}Reason: {1}",
+		"ru-ru": "{0}Причина: {1}",
+		"zh-cn": "{0}原因: {1}"
+	},
+	"ActWatch.Chat.Button": {
+		"en-us": "{0} {1}pressed the button {2}{3}{4}[{5}ID:{6}{4}]",
+		"ru-ru": "{0} {1}нажал на кнопку {2}{3}{4}[{5}ID:{6}{4}]",
+		"zh-cn": "{0} {1}按下按钮 {2}{3}{4}[{5}ID:{6}{4}]"
+	},
+	"ActWatch.Chat.Trigger": {
+		"en-us": "{0} {1}touched the trigger {2}{3}{4}[{5}ID:{6}{4}]",
+		"ru-ru": "{0} {1}прикоснулся к триггеру {2}{3}{4}[{5}ID:{6}{4}]",
+		"zh-cn": "{0} {1}扣动了扳机 {2}{3}{4}[{5}ID:{6}{4}]"
+	},
+	"ActWatch.Cvar.Notify": {
+		"en-us": "Cvar '{0}' has been changed to '{1}'",
+		"ru-ru": "Переменная '{0}' была изменёна на '{1}'",
+		"zh-cn": "Cvar '{0}' 已更改为 '{1}'"
+	},
+	"ActWatch.Cvar.Notify.Clients": {
+		"en-us": "{0}Cvar '{1}{2}{0}' has been changed to '{1}{3}{0}'",
+		"ru-ru": "{0}Переменная '{1}{2}{0}' была изменёна на '{1}{3}{0}'",
+		"zh-cn": "{0}Cvar '{1}{2}{0}' 已更改为 '{1}{3}{0}'"
+	},
+	"ActWatch.Info.ChangeMap": {
+		"en-us": "The server changed the map to {0}",
+		"ru-ru": "Сервер сменил карту на {0}",
+		"zh-cn": "服务器已更换地图为 {0}"
+	},
+	"ActWatch.Info.Error": {
+		"en-us": "Error: {0}",
+		"ru-ru": "Ошибка: {0}",
+		"zh-cn": "错误: {0}"
+	},
+	"ActWatch.Info.DB.Success": {
+		"en-us": "Database connection established. Type of DB: {0}",
+		"ru-ru": "Соединение с базой данных установлено. Тип БД: {0}",
+		"zh-cn": "数据库连接已建立。数据库类型: {0}"
+	},
+	"ActWatch.Info.DB.Failed": {
+		"en-us": "No connection to database. Type of DB: {0}",
+		"ru-ru": "Нет соединения с базой данных. Тип БД: {0}",
+		"zh-cn": "无法连接到数据库。数据库类型: {0}"
+	},
+	"ActWatch.Info.Buttons.PlayerConnect": {
+		"en-us": "\tPlayer: {0} has an buttons-ban\n\t\tDuration: {1}\n\t\tTimeIssued: {2}\n\t\tAdmin: {3}\n\t\tReason: {4}",
+		"ru-ru": "\tИгрок: {0} имеет запрет на кнопки\n\t\tДлительность: {1}\n\t\tИстекает: {2}\n\t\tАдмин: {3}\n\t\tПричина: {4}",
+		"zh-cn": "\t玩家: {0} 按钮已禁用\n\t\t时长: {1}\n\t\t时间: {2}\n\t\t管理员: {3}\n\t\t原因: {4}"
+	},
+	"ActWatch.Info.Triggers.PlayerConnect": {
+		"en-us": "\tPlayer: {0} has an triggers-ban\n\t\tDuration: {1}\n\t\tTimeIssued: {2}\n\t\tAdmin: {3}\n\t\tReason: {4}",
+		"ru-ru": "\tИгрок: {0} имеет запрет на триггера\n\t\tДлительность: {1}\n\t\tИстекает: {2}\n\t\tАдмин: {3}\n\t\tПричина: {4}",
+		"zh-cn": "\t玩家: {0} 的触发器已禁用\n\t\t时长: {1}\n\t\t时间: {2}\n\t\t管理员: {3}\n\t\t原因: {4}"
+	},
+	"ActWatch.Info.Error.NotFoundInDictionary": {
+		"en-us": "{{red}}Player not found in dictionary",
+		"ru-ru": "{{red}}Игрок не найден в словаре",
+		"zh-cn": "{{red}}在字典中找不到该玩家。"
+	},
+	"ActWatch.Info.Error.MinArg": {
+		"en-us": "{{orange}}Min. number of arguments: {{green}}{0}{{orange}}. Usage: {{green}}{1} {2}",
+		"ru-ru": "{{orange}}Мин.кол-во аргументов: {{green}}{0}{{orange}}. Используйте: {{green}}{1} {2}",
+		"zh-cn": "{{orange}}最小参数数量: {{green}}{0}{{orange}}. 用法: {{green}}{1} {2}"
+	},
+	"ActWatch.Info.WhiteList.Loading": {
+		"en-us": "Loading ActWatch WhiteList from {0}",
+		"ru-ru": "Загрузка белого списка ActWatch из {0}",
+		"zh-cn": "從 {0} 載入 ActWatch 白名單"
+	},
+	"ActWatch.Info.Scheme.Loading": {
+		"en-us": "Loading ActWatch Scheme from {0}",
+		"ru-ru": "Загрузка схемы ActWatch из {0}",
+		"zh-cn": "正在从 {0} 加载 ActWatch 方案"
+	},
+	"ActWatch.Info.Scheme.NotFound": {
+		"en-us": "Can not found ActWatch Scheme",
+		"ru-ru": "Схема ActWatch не найдена",
+		"zh-cn": "找不到 ActWatch 方案"
+	},
+	"ActWatch.Reply.NotValid": {
+		"en-us": "{0}The value you entered is not valid. Please use help",
+		"ru-ru": "{0}Введённое значение не валидно. Воспользуйтесь помощью",
+		"zh-cn": "{0}您输入的值无效。请使用帮助"
+	},
+	"ActWatch.Reply.Must_be_an_integer": {
+		"en-us": "{0}The entered value must be a number",
+		"ru-ru": "{0}Введенное значение должно быть числом",
+		"zh-cn": "{0}输入的值必须是一个数字"
+	},
+	"ActWatch.Reply.More_than_one_client_matched": {
+		"en-us": "{0}There are multiple clients that match",
+		"ru-ru": "{0}Найдено несколько игроков",
+		"zh-cn": "{0}有多个匹配的客户端。"
+	},
+	"ActWatch.Reply.You_cannot_target": {
+		"en-us": "{0}Since this person's immunity level is higher than yours, you cannot target this person",
+		"ru-ru": "{0}Иммунитет этого игрока выше вашего",
+		"zh-cn": "{0}由于此人的权限级别高于你，你无法针对此人。"
+	},
+	"ActWatch.Reply.No_matching_client": {
+		"en-us": "{0}There is no matching client",
+		"ru-ru": "{0}Игрок не найден",
+		"zh-cn": "{0}没有匹配的客户端。"
+	},
+	"ActWatch.Reply.InvalidSteamID": {
+		"en-us": "{0}Invalid SteamID for {1}{2}",
+		"ru-ru": "{0}Неверный SteamID для {1}{2}",
+		"zh-cn": "{0}的 SteamID 无效 {1}{2}"
+	},
+	"ActWatch.NoPermission": {
+		"en-us": "{0}You have no permission to use this command!",
+		"ru-ru": "{0}Вы не имеете доступа к данной команде!",
+		"zh-cn": "{0}您没有权限使用此命令！"
+	},
+	"ActWatch.Reply.PlayerInfo.UserID": {
+		"en-us": "{0}Player display format: {1}Nickname and UserID",
+		"ru-ru": "{0}Формат отображения игрока: {1}Ник и UserID",
+		"zh-cn": "{0}玩家显示格式: {1}昵称和用户 ID"
+	},
+	"ActWatch.Reply.PlayerInfo.SteamID": {
+		"en-us": "{0}Player display format: {1}Nickname and SteamID",
+		"ru-ru": "{0}Формат отображения игрока: {1}Ник и SteamID",
+		"zh-cn": "{0}玩家显示格式: {1}昵称和 SteamID"
+	},
+	"ActWatch.Reply.PlayerInfo.Full": {
+		"en-us": "{0}Player display format: {1}Nickname, UserID and SteamID",
+		"ru-ru": "{0}Формат отображения игрока: {1}Ник, UserID и SteamID",
+		"zh-cn": "{0}玩家显示格式: {1}昵称、用户 ID 和 SteamID"
+	},
+	"ActWatch.Reply.PlayerInfo.NicknameOnly": {
+		"en-us": "{0}Player display format: {1}Nickname only",
+		"ru-ru": "{0}Формат отображения игрока: {1}Только ник",
+		"zh-cn": "{0}玩家显示格式: {1}仅限昵称"
+	},
+	"ActWatch.Reply.Buttons.Has_a_ban": {
+		"en-us": "{0} {1}has a ban on pressing buttons",
+		"ru-ru": "{0} {1}имеет запрет на нажатие кнопок",
+		"zh-cn": "{0} {1}禁止按下按钮"
+	},
+	"ActWatch.Reply.Buttons.Can_use": {
+		"en-us": "{0} {1}can press buttons",
+		"ru-ru": "{0} {1}может нажимать на кнопки",
+		"zh-cn": "{0} {1}可以按下按钮"
+	},
+	"ActWatch.Reply.Buttons.List": {
+		"en-us": "{0}List of buttons bans:",
+		"ru-ru": "{0}Список банов кнопок:",
+		"zh-cn": "{0}按钮禁用列表："
+	},
+	"ActWatch.Reply.Triggers.Has_a_ban": {
+		"en-us": "{0} {1}has a ban on touching triggers",
+		"ru-ru": "{0} {1}имеет запрет на прикасание к триггерам",
+		"zh-cn": "{0} {1}禁止触摸扳机"
+	},
+	"ActWatch.Reply.Triggers.Can_touch": {
+		"en-us": "{0} {1}can touch triggers",
+		"ru-ru": "{0} {1}может прикасаться к триггерам",
+		"zh-cn": "{0} {1}可以触发触发器"
+	},
+	"ActWatch.Reply.Triggers.List": {
+		"en-us": "{0}List of touch triggers bans:",
+		"ru-ru": "{0}Список банов прикасаний к триггерам:",
+		"zh-cn": "{0}触摸触发器禁用列表："
+	},
+	"ActWatch.Reply.Access.Permanent": {
+		"en-us": "{0}You do not have access to permanent bans",
+		"ru-ru": "{0}Вы не имеете доступа к пермаментным банам",
+		"zh-cn": "{0}你没有访问永久封禁的权限"
+	},
+	"ActWatch.Reply.Access.UnPermanent": {
+		"en-us": "{0}You do not have access to permanent unbans",
+		"ru-ru": "{0}Вы не имеете доступа к пермаментным разбанам",
+		"zh-cn": "{0}你没有访问永久解封的权限"
+	},
+	"ActWatch.Reply.Access.Long": {
+		"en-us": "{0}You do not have access to long bans. Max: {1} minutes",
+		"ru-ru": "{0}Вы не имеете доступа к длительным банам. Максимально: {1} минут",
+		"zh-cn": "{0}你没有访问长时间封禁的权限。最大: {1} 分钟"
+	},
+	"ActWatch.Reply.Access.Other": {
+		"en-us": "{0}You do not have access to other admins bans",
+		"ru-ru": "{0}Вы не имеете доступа к банам других админов",
+		"zh-cn": "{0}你没有访问其他管理员封禁的权限"
+	},
+	"ActWatch.Reply.Ban.Success": {
+		"en-us": "{0}Ban successfully added to database",
+		"ru-ru": "{0}Бан успешно добавлен в базу данных",
+		"zh-cn": "{0}封禁已成功添加到数据库"
+	},
+	"ActWatch.Reply.Ban.Failed": {
+		"en-us": "{0}There was an error adding the ban to the database",
+		"ru-ru": "{0}Произошла ошибка добавления бана в базу данных",
+		"zh-cn": "{0}将封禁添加到数据库时出错"
+	},
+	"ActWatch.Reply.UnBan.Success": {
+		"en-us": "{0}Ban successfully lifted. Information entered into the database",
+		"ru-ru": "{0}Бан успешно снят. Информация внесена в базу данных",
+		"zh-cn": "{0}封禁已成功解除。信息已输入数据库"
+	},
+	"ActWatch.Reply.UnBan.Failed": {
+		"en-us": "{0}There was an error removing the ban from the database",
+		"ru-ru": "{0}Произошла ошибка снятия бана в базе данных",
+		"zh-cn": "{0}从数据库中移除封禁时出错"
+	},
+	"ActWatch.Reply.Ban.Player": {
+		"en-us": "{0}***Player: {1}***",
+		"ru-ru": "{0}***Игрок: {1}***",
+		"zh-cn": "{0}***玩家: {1}***"
+	},
+	"ActWatch.Reply.Ban.Admin": {
+		"en-us": "{0}|Admin: {1}",
+		"ru-ru": "{0}|Админ: {1}",
+		"zh-cn": "{0}|管理员: {1}"
+	},
+	"ActWatch.Reply.Ban.Duration.Temporary": {
+		"en-us": "{0}|Duration: {1}Temporary",
+		"ru-ru": "{0}|Длительность: {1}Временный",
+		"zh-cn": "{0}|时长: {1}临时"
+	},
+	"ActWatch.Reply.Ban.Duration.Permanently": {
+		"en-us": "{0}|Duration: {1}Permanently",
+		"ru-ru": "{0}|Длительность: {1}Перманентный",
+		"zh-cn": "{0}|时长: {1}永久"
+	},
+	"ActWatch.Reply.Ban.Duration.Minutes": {
+		"en-us": "{0}|Duration: {1}{2} Minutes",
+		"ru-ru": "{0}|Длительность: {1}{2} минут",
+		"zh-cn": "{0}|时长: {1}{2} 分钟"
+	},
+	"ActWatch.Reply.Ban.Expires": {
+		"en-us": "{0}|Expires|Issued: {1}{2}",
+		"ru-ru": "{0}|Истекает|Выдан: {1}{2}",
+		"zh-cn": "{0}|到期|发出: {1}{2}"
+	},
+	"ActWatch.Reply.Ban.Reason": {
+		"en-us": "{0}|Reason: {1}{2}",
+		"ru-ru": "{0}|Причина: {1}{2}",
+		"zh-cn": "{0}|原因: {1}{2}"
+	},
+	"ActWatch.Reply.Ban.Separator": {
+		"en-us": "{0}|__________________________________________",
+		"ru-ru": "{0}|__________________________________________",
+		"zh-cn": "{0}|__________________________________________"
+	},
+	"ActWatch.Reply.Ban.NoPlayers": {
+		"en-us": "{0}No players",
+		"ru-ru": "{0}Нет игроков",
+		"zh-cn": "{0}没有玩家"
+	},
+	"ActWatch.Reply.Offline.Info": {
+		"en-us": "{0}List of all players:",
+		"ru-ru": "{0}Список всех игроков:",
+		"zh-cn": "{0}所有玩家列表："
+	},
+	"ActWatch.Reply.Offline.OnServer": {
+		"en-us": "{0}{1}. {2}(#{3}/{4}). Status: Online",
+		"ru-ru": "{0}{1}. {2}(#{3}/{4}). Статус: Онлайн",
+		"zh-cn": "{0}{1}. {2}(#{3}/{4})。 状态：在线"
+	},
+	"ActWatch.Reply.Offline.Leave": {
+		"en-us": "{0}{1}. {2}(#{3}/{4}). Status: left {5} minutes ago",
+		"ru-ru": "{0}{1}. {2}(#{3}/{4}). Статус: вышел {5} минут назад",
+		"zh-cn": "{0}{1}. {2}(#{3}/{4})。 状态: {5} 分钟前离开"
+	},
+	"ActWatch.Reply.Reload_WhiteList": {
+		"en-us": "{0}WhiteList has been reloaded..",
+		"ru-ru": "{0}Белый список был перезагружен...",
+		"zh-cn": "{0}白名單已重新載入。"
+	},
+	"ActWatch.Reply.Reload_Scheme": {
+		"en-us": "{0}Scheme has been reloaded..",
+		"ru-ru": "{0}Схема была перезагружена...",
+		"zh-cn": "{0}方案已重新載入。"
+	},
+	"ActWatch.Reply.ShowWhiteList": {
+		"en-us": "{0}{1}",
+		"ru-ru": "{0}{1}",
+		"zh-cn": "{0}{1}"
+	},
+	"ActWatch.Reply.WhiteList_NotFound": {
+		"en-us": "{0}Map haven't a WhiteList Config",
+		"ru-ru": "{0}Карта не имеет конфигурации белого списка",
+		"zh-cn": "{0}地圖沒有白名單配置"
+	},
+	"ActWatch.Reply.ShowScheme": {
+		"en-us": "{0}{1}: {2}{3}",
+		"ru-ru": "{0}{1}: {2}{3}",
+		"zh-cn": "{0}{1}: {2}{3}"
+	},
+	"ActWatch.Reply.Button.Enabled": {
+		"en-us": "{0}You have {1}Enabled {0}button tracking",
+		"ru-ru": "{0}Вы {1}Включили {0}слежение за нажатием кнопок",
+		"zh-cn": "{0}您已{1}启{0}用按钮跟踪功能"
+	},
+	"ActWatch.Reply.Button.Disabled": {
+		"en-us": "{0}You have {1}Disabled {0}button tracking",
+		"ru-ru": "{0}Вы {1}Oтключили {0}слежение за нажатием кнопок",
+		"zh-cn": "{0}您已{1}禁{0}用按钮跟踪功能"
+	},
+	"ActWatch.Reply.Trigger.Enabled": {
+		"en-us": "{0}You have {1}Enabled {0}trigger tracking",
+		"ru-ru": "{0}Вы {1}Включили {0}слежение за триггерами",
+		"zh-cn": "{0}您已{1}启{0}用触发器跟踪"
+	},
+	"ActWatch.Reply.Trigger.Disabled": {
+		"en-us": "{0}You have {1}Disabled {0}trigger tracking",
+		"ru-ru": "{0}Вы {1}Oтключили {0}слежение за триггерами",
+		"zh-cn": "{0}您已{1}禁{0}用触发器跟踪"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"Color_name":		"{default}",
+	"Color_steamid":	"{grey}",
+	"Color_warning":	"{orange}",
+	"Color_enabled":	"{green}",
+	"Color_disabled":	"{red}",
+	"Color_use_trigger":	"{lightblue}",
+	"Color_use_button":	"{lightblue}",
+	"Color_entity_name":	"{gold}",
+	"Color_entity_index":	"{lime}",
+	"Server_name":		"Server"
+}
