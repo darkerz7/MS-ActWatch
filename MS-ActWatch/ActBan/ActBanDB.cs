@@ -28,36 +28,61 @@ namespace MS_ActWatch.ActBan
                 string sDBFile = Path.Join(ActWatch._dllPath, dbConfig.SQLite_File);
                 db = new DB_SQLite(sDBFile);
             }
-            if (db.bSuccess)
+        }
+
+        public static void CheckConnection()
+        {
+            bool bLastSuccess = db != null && db.bSuccess;
+            db?.bSuccess = db.AnyDB.GetLastState() == System.Data.ConnectionState.Open;
+
+            if (db != null && db.bSuccess)
             {
-                UI.AWSysInfoServerInit("ActWatch.Info.DB.Success", 6, dbConfig.TypeDB);
-                Task.Run(() => {
-#pragma warning disable CS8625
-                    if (dbConfig.TypeDB == "sqlite")
-                    {
-                        db.AnyDB.QueryAsync(CreateTableSQL_SQLite(TablePrefix(true) + TablePostfix(true)) + CreateTableSQL_SQLite(TablePrefix(true) + TablePostfix(false)) + CreateTableSQL_SQLite(TablePrefix(false) + TablePostfix(true)) + CreateTableSQL_SQLite(TablePrefix(false) + TablePostfix(false)), null, (_) =>
-                        {
-                            db.bDBReady = true;
-                        }, true);
-                    }
-                    else if (dbConfig.TypeDB == "mysql")
-                    {
-                        db.AnyDB.QueryAsync(CreateTableSQL_MySQL(TablePrefix(true) + TablePostfix(true)) + CreateTableSQL_MySQL(TablePrefix(true) + TablePostfix(false)) + CreateTableSQL_MySQL(TablePrefix(false) + TablePostfix(true)) + CreateTableSQL_MySQL(TablePrefix(false) + TablePostfix(false)), null, (_) =>
-                        {
-                            db.bDBReady = true;
-                        }, true);
-                    }
-                    else if (dbConfig.TypeDB == "postgre")
-                    {
-                        db.AnyDB.QueryAsync(CreateTableSQL_PostgreSQL(TablePrefix(true) + TablePostfix(true)) + CreateTableSQL_PostgreSQL(TablePrefix(true) + TablePostfix(false)) + CreateTableSQL_PostgreSQL(TablePrefix(false) + TablePostfix(true)) + CreateTableSQL_PostgreSQL(TablePrefix(false) + TablePostfix(false)), null, (_) =>
-                        {
-                            db.bDBReady = true;
-                        }, true);
-                    }
-#pragma warning restore CS8625
-                });
+                if (!bLastSuccess) UI.AWSysInfoServerInit("ActWatch.Info.DB.Success", 6, dbConfig != null ? dbConfig.TypeDB : "sqlite");
+                if (!db.bDBReady) Task.Run(() => CreateTables());
             }
-            else UI.AWSysInfoServerInit("ActWatch.Info.DB.Failed", 15, dbConfig.TypeDB);
+            else UI.AWSysInfoServerInit("ActWatch.Info.DB.Failed", 15, dbConfig != null ? dbConfig.TypeDB : "sqlite");
+        }
+
+        public static void CreateTables()
+        {
+#pragma warning disable CS8625
+            if (dbConfig == null || dbConfig.TypeDB == "sqlite")
+            {
+                db?.AnyDB.QueryAsync(CreateTableSQL_SQLite(TablePrefix(true) + TablePostfix(true)) + CreateTableSQL_SQLite(TablePrefix(true) + TablePostfix(false)) + CreateTableSQL_SQLite(TablePrefix(false) + TablePostfix(true)) + CreateTableSQL_SQLite(TablePrefix(false) + TablePostfix(false)), null, (_) =>
+                {
+                    db.bDBReady = true;
+                    Task.Run(() =>
+                    {
+                        if (Cvar.ButtonGlobalEnable) Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, true, false));
+                        if (Cvar.TriggerGlobalEnable) Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, false, false));
+                    });
+                }, true, true);
+            }
+            else if (dbConfig.TypeDB == "mysql")
+            {
+                db?.AnyDB.QueryAsync(CreateTableSQL_MySQL(TablePrefix(true) + TablePostfix(true)) + CreateTableSQL_MySQL(TablePrefix(true) + TablePostfix(false)) + CreateTableSQL_MySQL(TablePrefix(false) + TablePostfix(true)) + CreateTableSQL_MySQL(TablePrefix(false) + TablePostfix(false)), null, (_) =>
+                {
+                    db.bDBReady = true;
+                    Task.Run(() =>
+                    {
+                        if (Cvar.ButtonGlobalEnable) Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, true, false));
+                        if (Cvar.TriggerGlobalEnable) Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, false, false));
+                    });
+                }, true, true);
+            }
+            else if (dbConfig.TypeDB == "postgre")
+            {
+                db?.AnyDB.QueryAsync(CreateTableSQL_PostgreSQL(TablePrefix(true) + TablePostfix(true)) + CreateTableSQL_PostgreSQL(TablePrefix(true) + TablePostfix(false)) + CreateTableSQL_PostgreSQL(TablePrefix(false) + TablePostfix(true)) + CreateTableSQL_PostgreSQL(TablePrefix(false) + TablePostfix(false)), null, (_) =>
+                {
+                    db.bDBReady = true;
+                    Task.Run(() =>
+                    {
+                        if (Cvar.ButtonGlobalEnable) Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, true, false));
+                        if (Cvar.TriggerGlobalEnable) Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, false, false));
+                    });
+                }, true, true);
+            }
+#pragma warning restore CS8625
         }
 
         public static void BanClient(string sClientName, string sClientSteamID, string sAdminName, string sAdminSteamID, long iDuration, long iTimeStamp, string sReason, bool bType)
@@ -66,7 +91,7 @@ namespace MS_ActWatch.ActBan
             {
                 Task.Run(() =>
                 {
-                    db.AnyDB.QueryAsync("INSERT INTO " + TablePrefix(bType) + TablePostfix(true) + " (client_name, client_steamid, admin_name, admin_steamid, server, duration, timestamp_issued, reason) VALUES ('{ARG}', '{ARG}', '{ARG}', '{ARG}', '{ARG}', {ARG}, {ARG}, '{ARG}');", new List<string>([sClientName, sClientSteamID, sAdminName, sAdminSteamID, GetServerName(), iDuration.ToString(), iTimeStamp.ToString(), sReason]), (_) => { }, true);
+                    db.AnyDB.QueryAsync("INSERT INTO " + TablePrefix(bType) + TablePostfix(true) + " (client_name, client_steamid, admin_name, admin_steamid, server, duration, timestamp_issued, reason) VALUES ('{ARG}', '{ARG}', '{ARG}', '{ARG}', '{ARG}', {ARG}, {ARG}, '{ARG}');", new List<string>([sClientName, sClientSteamID, sAdminName, sAdminSteamID, GetServerName(), iDuration.ToString(), iTimeStamp.ToString(), sReason]), (_) => { }, true, true);
                 });
             }
         }
@@ -85,10 +110,10 @@ namespace MS_ActWatch.ActBan
                                                 "SELECT client_name, client_steamid, admin_name, admin_steamid, server, duration, timestamp_issued, reason, reason_unban, admin_name_unban, admin_steamid_unban, timestamp_unban FROM " + TablePrefix(bType) + TablePostfix(true) +
                                                     " WHERE client_steamid='{ARG}' and server='{ARG}';" +
                                             "DELETE FROM " + TablePrefix(bType) + TablePostfix(true) +
-                                                    " WHERE client_steamid='{ARG}' and server='{ARG}';", new List<string>([sReason, sAdminName, sAdminSteamID, iTimeStamp.ToString(), sClientSteamID, sServer, sClientSteamID, sServer, sClientSteamID, sServer]), (_) => { }, true);
+                                                    " WHERE client_steamid='{ARG}' and server='{ARG}';", new List<string>([sReason, sAdminName, sAdminSteamID, iTimeStamp.ToString(), sClientSteamID, sServer, sClientSteamID, sServer, sClientSteamID, sServer]), (_) => { }, true, true);
                     else
                         db.AnyDB.QueryAsync("DELETE FROM " + TablePrefix(bType) + TablePostfix(true) +
-                            " WHERE client_steamid='{ARG}' and server='{ARG}';", new List<string>([sClientSteamID, sServer]), (_) => { }, true);
+                            " WHERE client_steamid='{ARG}' and server='{ARG}';", new List<string>([sClientSteamID, sServer]), (_) => { }, true, true);
                 });
             }
         }
@@ -149,11 +174,10 @@ namespace MS_ActWatch.ActBan
             }
         }
 
-        public static void OfflineUnban(bool bType)
+        public static void OfflineUnban(int iTime, bool bType)
         {
             if (db.bDBReady)
             {
-                int iTime = Convert.ToInt32(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
                 Task.Run(() =>
                 {
                     if (bType && Cvar.ButtonKeepExpiredBan || !bType && Cvar.TriggerKeepExpiredBan)

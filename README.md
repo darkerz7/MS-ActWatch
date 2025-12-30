@@ -15,10 +15,10 @@ Notify players about button and trigger(Activator) interactions
 1. [ModSharp](https://github.com/Kxnrl/modsharp-public)
 2. [ClientPreferences](https://github.com/Kxnrl/modsharp-public/tree/master/Sharp.Modules/ClientPreferences)
 3. [LocalizerManager](https://github.com/Kxnrl/modsharp-public/tree/master/Sharp.Modules/LocalizerManager)
-4. [AnyBaseLib](https://github.com/darkerz7/MS-AnyBaseLib-Shared)
+4. [AnyBaseLibNext](https://github.com/darkerz7/MS-AnyBaseLibNext-Shared)
 
 ## Installation:
-1. Install `ClientPreferences`, `LocalizerManager` and `MS-AnyBaseLib-Shared`
+1. Install `ClientPreferences`, `LocalizerManager` and `MS-AnyBaseLibNext-Shared`
 2. Compile or copy MS-ActWatch to `sharp/modules/MS-ActWatch` folger. To compile without EntWatch remove DefineConstants `USE_ENTWATCH` (Project Properties -> Build -> Conditional compilation symbols)
 3. Copy and configure the configuration file `db_config.json` and `log_config.json` to `sharp/modules/MS-ActWatch` folger
 4. Copy `ActWatch.json` to `sharp/locales` folger

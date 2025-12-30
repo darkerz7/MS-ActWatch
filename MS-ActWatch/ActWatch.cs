@@ -125,6 +125,7 @@ namespace MS_ActWatch
             UnRegCommands();
             AW.RemoveTimers();
             UnRegisterCvars();
+            ActBan.ActBanDB.db?.AnyDB.UnSet();
         }
 
         public void OnGameActivate() //OnMapStart

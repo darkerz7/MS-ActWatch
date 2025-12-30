@@ -274,42 +274,13 @@ namespace MS_ActWatch
             return default;
         }
 
-        public static void TimerRetry()
-        {
-            //Reban after reload plugin
-            if (ActBanDB.db is { bDBReady: true })
-            {
-                if (Cvar.ButtonGlobalEnable)
-                {
-                    Task.Run(() =>
-                    {
-                        Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, true));
-                    });
-                }
-                if (Cvar.TriggerGlobalEnable)
-                {
-                    Task.Run(() =>
-                    {
-                        Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, false));
-                    });
-
-                }
-                if (AW.g_TimerRetryDB != null)
-                {
-                    _modSharp!.StopTimer((Guid)AW.g_TimerRetryDB);
-                    AW.g_TimerRetryDB = null;
-                }
-            }
-            else
-            {
-                ActBanDB.Init_DB();
-            }
-        }
+        public static void TimerRetry() => ActBanDB.CheckConnection();
 
         public static void TimerUnban()
         {
-            if (Cvar.ButtonGlobalEnable) ActBanDB.OfflineUnban(true);
-            if (Cvar.TriggerGlobalEnable) ActBanDB.OfflineUnban(false);
+            int iTime = Convert.ToInt32(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+            if (Cvar.ButtonGlobalEnable) ActBanDB.OfflineUnban(iTime, true);
+            if (Cvar.TriggerGlobalEnable) ActBanDB.OfflineUnban(iTime, false);
 
             Task.Run(() =>
             {
@@ -321,7 +292,11 @@ namespace MS_ActWatch
             {
                 Task.Run(() =>
                 {
-                    Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, true));
+                    Parallel.ForEach(AW.g_AWPlayer, (pair) =>
+                    {
+                        if (pair.Value.ButtonBannedPlayer.iDuration > 0 && pair.Value.ButtonBannedPlayer.iTimeStamp_Issued < iTime) pair.Value.ButtonBannedPlayer.bBanned = false;
+                        ActBanPlayer.GetBan(pair.Key, true);
+                    });
                 });
             }
 
@@ -329,7 +304,11 @@ namespace MS_ActWatch
             {
                 Task.Run(() =>
                 {
-                    Parallel.ForEach(AW.g_AWPlayer, (pair) => ActBanPlayer.GetBan(pair.Key, false));
+                    Parallel.ForEach(AW.g_AWPlayer, (pair) =>
+                    {
+                        if (pair.Value.TriggerBannedPlayer.iDuration > 0 && pair.Value.TriggerBannedPlayer.iTimeStamp_Issued < iTime) pair.Value.TriggerBannedPlayer.bBanned = false;
+                        ActBanPlayer.GetBan(pair.Key, false);
+                    });
                 });
             }
         }
