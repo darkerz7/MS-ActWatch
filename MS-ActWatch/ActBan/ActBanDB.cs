@@ -45,7 +45,6 @@ namespace MS_ActWatch.ActBan
 
         public static void CreateTables()
         {
-#pragma warning disable CS8625
             if (dbConfig == null || dbConfig.TypeDB == "sqlite")
             {
                 db?.AnyDB.QueryAsync(CreateTableSQL_SQLite(TablePrefix(true) + TablePostfix(true)) + CreateTableSQL_SQLite(TablePrefix(true) + TablePostfix(false)) + CreateTableSQL_SQLite(TablePrefix(false) + TablePostfix(true)) + CreateTableSQL_SQLite(TablePrefix(false) + TablePostfix(false)), null, (_) =>
@@ -82,7 +81,6 @@ namespace MS_ActWatch.ActBan
                     });
                 }, true, true);
             }
-#pragma warning restore CS8625
         }
 
         public static void BanClient(string sClientName, string sClientSteamID, string sAdminName, string sAdminSteamID, long iDuration, long iTimeStamp, string sReason, bool bType)

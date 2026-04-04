@@ -49,7 +49,7 @@ namespace MS_ActWatch.ActBan
             string? sSteamID = AW.ConvertSteamID64ToSteamID(UserID.SteamId.ToString());
             if (!string.IsNullOrEmpty(sSteamID)) offlineplayer.SteamID = sSteamID;
             else offlineplayer.SteamID = "null";
-            offlineplayer.Immutity = AW.GetPlayerImmunity(UserID);
+            offlineplayer.Immutity = ActWatch.AdminCommands_GetPlayerImmunity(UserID);
             return offlineplayer;
         }
 
@@ -80,7 +80,7 @@ namespace MS_ActWatch.ActBan
 
         public static OfflineBan? FindTarget(IGameClient admin, string sTarget, bool bChat)
         {
-            uint iAdminImmunity = AW.GetPlayerImmunity(admin);
+            uint iAdminImmunity = ActWatch.AdminCommands_GetPlayerImmunity(admin);
             OfflineBan? target = null;
             if (sTarget.StartsWith("#steam_", StringComparison.OrdinalIgnoreCase))
             {

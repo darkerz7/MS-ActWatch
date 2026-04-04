@@ -11,7 +11,7 @@ namespace MS_ActWatch.Helpers
         {
             string[] sPlayerInfoFormat = PlayerInfoFormat(client);
             string sEntityID = !string.IsNullOrWhiteSpace(entity.HammerId) ? entity.HammerId : $"_{entity.Index}";
-            PrintToConsole(ServerLocalizer.Format(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(bType ? "ActWatch.Chat.Button" : "ActWatch.Chat.Trigger", false), ReplaceColorTags(sPlayerInfoFormat[3], false), "", "", entity.Name, "", "", sEntityID), 4);
+            PrintToConsole(LocalizerFormat(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(bType ? "ActWatch.Chat.Button" : "ActWatch.Chat.Trigger", false), ReplaceColorTags(sPlayerInfoFormat[3], false), "", "", entity.Name, "", "", sEntityID), 4);
 
             Task.Run(() =>
             {
@@ -47,7 +47,7 @@ namespace MS_ActWatch.Helpers
 
         public static void AWSysInfo(string sMessage, int iColor = 15, params object[] arg)
         {
-            PrintToConsole(ServerLocalizer.Format(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(sMessage, false), arg), iColor);
+            PrintToConsole(LocalizerFormat(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(sMessage, false), arg), iColor);
 
             Task.Run(() =>
             {
@@ -57,7 +57,7 @@ namespace MS_ActWatch.Helpers
 
         public static void AWSysInfoServerInit(string sMessage, int iColor = 15, params object[] arg)
         {
-            PrintToConsole(ServerLocalizer.Format(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(sMessage, false), arg), iColor);
+            PrintToConsole(LocalizerFormat(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(sMessage, false), arg), iColor);
 
             Task.Run(() =>
             {
@@ -67,7 +67,7 @@ namespace MS_ActWatch.Helpers
 
         public static void AWAdminInfo(string sMessage, params object[] arg)
         {
-            PrintToConsole(ServerLocalizer.Format(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(sMessage, false), arg), 2);
+            PrintToConsole(LocalizerFormat(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), ReplaceColorTags(sMessage, false), arg), 2);
 
             Task.Run(() =>
             {
@@ -77,7 +77,7 @@ namespace MS_ActWatch.Helpers
 
         public static void CvarChangeNotify(string sCvarName, string sCvarValue, bool bClientNotify)
         {
-            PrintToConsole(ServerLocalizer.Format(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), "ActWatch.Cvar.Notify", [sCvarName, sCvarValue]), 3);
+            PrintToConsole(LocalizerFormat(CultureInfo.GetCultureInfo(Cvar.ServerLanguage), "ActWatch.Cvar.Notify", [sCvarName, sCvarValue]), 3);
 
             Task.Run(() =>
             {
@@ -100,15 +100,21 @@ namespace MS_ActWatch.Helpers
         {
             if (client is { IsValid: true, IsFakeClient: false, IsHltv: false } && client.GetPlayerController() is { } player && ActWatch.GetLocalizer() is { } lm)
             {
-                var localizer = lm.GetLocalizer(client);
+                var localizer = lm.For(client);
                 switch(iTag)
                 {
-                    case 0: { player.Print(bChat ? HudPrintChannel.Chat : HudPrintChannel.Console, ReplaceColorTags($" {localizer.Format("ActWatch.Chat.Tag.Button")} {localizer.Format(sMessage, arg)}", bChat)); break; }
-                    case 1: { player.Print(bChat ? HudPrintChannel.Chat : HudPrintChannel.Console, ReplaceColorTags($" {localizer.Format("ActWatch.Chat.Tag.Trigger")} {localizer.Format(sMessage, arg)}", bChat)); break; }
-                    default: { player.Print(bChat ? HudPrintChannel.Chat : HudPrintChannel.Console, ReplaceColorTags($" {localizer.Format("ActWatch.Chat.Tag.ActWatch")} {localizer.Format(sMessage, arg)}", bChat)); break; }
+                    case 0: { player.Print(bChat ? HudPrintChannel.Chat : HudPrintChannel.Console, ReplaceColorTags($" {localizer.Text("ActWatch.Chat.Tag.Button")} {localizer.Text(sMessage, arg)}", bChat)); break; }
+                    case 1: { player.Print(bChat ? HudPrintChannel.Chat : HudPrintChannel.Console, ReplaceColorTags($" {localizer.Text("ActWatch.Chat.Tag.Trigger")} {localizer.Text(sMessage, arg)}", bChat)); break; }
+                    default: { player.Print(bChat ? HudPrintChannel.Chat : HudPrintChannel.Console, ReplaceColorTags($" {localizer.Text("ActWatch.Chat.Tag.ActWatch")} {localizer.Text(sMessage, arg)}", bChat)); break; }
                 }
                 
             }
+        }
+
+        public static string LocalizerFormat(CultureInfo culture, string key, params ReadOnlySpan<object?> param)
+        {
+            if (ActWatch.GetLocalizer() is { } lm) return lm.Format(culture, key, param);
+            return "";
         }
 
         public static string PlayerInfo(IGameClient? client, string[] sPlayerInfoFormat)

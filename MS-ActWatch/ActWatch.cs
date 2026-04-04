@@ -3,9 +3,12 @@ using MS_ActWatch.Helpers;
 using MS_ActWatch_Shared;
 #if (USE_ENTWATCH)
 using MS_EntWatch_Shared;
+using Sharp.Modules.AdminManager.Shared;
+
 #endif
 using Sharp.Modules.ClientPreferences.Shared;
 using Sharp.Modules.LocalizerManager.Shared;
+using Sharp.Modules.TargetingManager.Shared;
 using Sharp.Shared;
 using Sharp.Shared.Enums;
 using Sharp.Shared.GameEntities;
@@ -48,10 +51,13 @@ namespace MS_ActWatch
         public static string? _sharpPath;
         private IDisposable? _callback;
         private readonly IVirtualHook _virtualHook;
+        public static ITargetingManager? _targetingManager;
 #pragma warning restore CA2211
 
         private static IModSharpModuleInterface<ILocalizerManager>? _localizer;
         private IModSharpModuleInterface<IClientPreference>? _icp;
+        private static IModSharpModuleInterface<IAdminManager>? _adminManager;
+        private static bool _AMInit = false;
 #if (USE_ENTWATCH)
         private static IModSharpModuleInterface<IEntWatchAPI>? _ientwatch;
 #endif
@@ -65,7 +71,6 @@ namespace MS_ActWatch
             _entities!.InstallEntityListener(this);
             _clients!.InstallClientListener(this);
             RegCommands();
-            RegAdminCommands();
             return true;
         }
 
@@ -79,18 +84,21 @@ namespace MS_ActWatch
             _entities!.HookEntityOutput("func_door", "OnOpen");
             _entities!.HookEntityOutput("func_door_rotating", "OnOpen");
             _entities!.HookEntityOutput("func_physbox", "OnPlayerUse");
+            TryResolveTargetingManager();
+            TryResolveAdminManager();
         }
 
         public void OnAllModulesLoaded()
         {
             GetClientPrefs();
             GetLocalizer()?.LoadLocaleFile("ActWatch");
-            ServerLocalizer.LoadLocaleFile("ActWatch");
 #if (USE_ENTWATCH)
             GetEntWatch();
 #endif
             AW.InitTimers();
             ActBan.ActBanDB.Init_DB();
+            TryResolveTargetingManager();
+            TryResolveAdminManager();
         }
 
         public void OnLibraryConnected(string name)
@@ -99,6 +107,8 @@ namespace MS_ActWatch
 #if (USE_ENTWATCH)
             else if (name.Equals("EntWatch")) GetEntWatch();
 #endif
+            else if (name.Equals("Sharp.Modules.TargetingManager", StringComparison.OrdinalIgnoreCase)) TryResolveTargetingManager();
+            else if (name.Equals("Sharp.Modules.AdminManager", StringComparison.OrdinalIgnoreCase)) TryResolveAdminManager();
         }
 
         public void OnLibraryDisconnect(string name)
@@ -107,6 +117,10 @@ namespace MS_ActWatch
 #if (USE_ENTWATCH)
             else if (name.Equals("EntWatch")) _icp = null;
 #endif
+            else if (name.Equals("Sharp.Modules.TargetingManager", StringComparison.OrdinalIgnoreCase))
+            {
+                _targetingManager = null;
+            }
         }
 
         private void OnCookieLoad(IGameClient client)
@@ -121,7 +135,6 @@ namespace MS_ActWatch
             _entities!.RemoveEntityListener(this);
             _clients!.RemoveClientListener(this);
             _callback?.Dispose();
-            AdminCmdsManager.UnRegCommands();
             UnRegCommands();
             AW.RemoveTimers();
             UnRegisterCvars();
@@ -176,6 +189,34 @@ namespace MS_ActWatch
                 if (_icp?.Instance is { } instance) _callback = instance.ListenOnLoad(OnCookieLoad);
             }
             return _icp?.Instance;
+        }
+
+        private static void TryResolveTargetingManager()
+        {
+            if (_targetingManager is not null) return;
+
+            _targetingManager = _modules!.GetOptionalSharpModuleInterface<ITargetingManager>(ITargetingManager.Identity)?.Instance;
+
+            if (_targetingManager is null)
+            {
+                UI.AWSysInfo("ActWatch.Info.Error", 15, "TargetingManager is not installed. Target selectors will be limited.");
+                return;
+            }
+        }
+
+        private void TryResolveAdminManager()
+        {
+            if (_adminManager?.Instance is not null) return;
+
+            _adminManager = _modules!.GetOptionalSharpModuleInterface<IAdminManager>(IAdminManager.Identity);
+
+            if (_adminManager?.Instance is null)
+            {
+                UI.AWSysInfo("ActWatch.Info.Error", 15, "AdminManager is not installed. Admin commands will not work.");
+                return;
+            }
+
+            AdminCommands_InitializePermissions();
         }
 
 #if (USE_ENTWATCH)

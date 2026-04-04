@@ -144,11 +144,6 @@
 		"ru-ru": "{0}Неверный SteamID для {1}{2}",
 		"zh-cn": "{0}的 SteamID 无效 {1}{2}"
 	},
-	"ActWatch.NoPermission": {
-		"en-us": "{0}You have no permission to use this command!",
-		"ru-ru": "{0}Вы не имеете доступа к данной команде!",
-		"zh-cn": "{0}您没有权限使用此命令！"
-	},
 	"ActWatch.Reply.PlayerInfo.UserID": {
 		"en-us": "{0}Player display format: {1}Nickname and UserID",
 		"ru-ru": "{0}Формат отображения игрока: {1}Ник и UserID",

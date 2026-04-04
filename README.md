@@ -15,10 +15,12 @@ Notify players about button and trigger(Activator) interactions
 1. [ModSharp](https://github.com/Kxnrl/modsharp-public)
 2. [ClientPreferences](https://github.com/Kxnrl/modsharp-public/tree/master/Sharp.Modules/ClientPreferences)
 3. [LocalizerManager](https://github.com/Kxnrl/modsharp-public/tree/master/Sharp.Modules/LocalizerManager)
-4. [AnyBaseLibNext](https://github.com/darkerz7/MS-AnyBaseLibNext-Shared)
+4. [AdminManager](https://github.com/Kxnrl/modsharp-public/tree/master/Sharp.Modules/AdminManager)
+5. [TargetingManager](https://github.com/Kxnrl/modsharp-public/tree/master/Sharp.Modules/TargetingManager)
+6. [AnyBaseLibNext](https://github.com/darkerz7/MS-AnyBaseLibNext-Shared)
 
 ## Installation:
-1. Install `ClientPreferences`, `LocalizerManager` and `MS-AnyBaseLibNext-Shared`
+1. Install `ClientPreferences`, `LocalizerManager`, `AdminManager`, `TargetingManager` and `MS-AnyBaseLibNext-Shared`
 2. Compile or copy MS-ActWatch to `sharp/modules/MS-ActWatch` folger. To compile without EntWatch remove DefineConstants `USE_ENTWATCH` (Project Properties -> Build -> Conditional compilation symbols)
 3. Copy and configure the configuration file `db_config.json` and `log_config.json` to `sharp/modules/MS-ActWatch` folger
 4. Copy `ActWatch.json` to `sharp/locales` folger
@@ -30,20 +32,20 @@ Notify players about button and trigger(Activator) interactions
 ## Admin privileges
 Privilege | Description
 --- | ---
-`aw_reload` | Allows you to reload the plugin config
-`aw_ban` | Allows access to Offline list
-`bw_ban` | Allows access to button press bans (Command)
-`bw_ban_perm` | Allows access to permanent button press bans (Duration 0)
-`bw_ban_long` | Allows access to long button press bans (Cvar awc_bbanlong)
-`bw_unban` | Allows access to button press unbans (Command)
-`bw_unban_perm` | Allows access to permanent button press unbans (Duration 0)
-`bw_unban_other` | Allows access to button press unbans from other admins
-`tw_ban` | Allows access to trigger touch bans (Command)
-`tw_ban_perm` | Allows access to permanent trigger touch bans (Duration 0)
-`tw_ban_long` | Allows access to long trigger touch bans (Cvar awc_tbanlong)
-`tw_unban` | Allows access to trigger touch unbans (Command)
-`tw_unban_perm` | Allows access to permanent trigger touch unbans (Duration 0)
-`tw_unban_other` | Allows access to trigger touch unbans from other admins
+`actwatch:reload` | Allows you to reload the plugin config
+`actwatch:actban` | Allows access to Offline list
+`actwatch:buttonban` | Allows access to button press bans (Command)
+`actwatch:buttonbanperm` | Allows access to permanent button press bans (Duration 0)
+`actwatch:buttonbanlong` | Allows access to long button press bans (Cvar awc_bbanlong)
+`actwatch:buttonunban` | Allows access to button press unbans (Command)
+`actwatch:buttonunbanperm` | Allows access to permanent button press unbans (Duration 0)
+`actwatch:buttonunbanother` | Allows access to button press unbans from other admins
+`actwatch:triggerban` | Allows access to trigger touch bans (Command)
+`actwatch:triggerbanperm` | Allows access to permanent trigger touch bans (Duration 0)
+`actwatch:triggerbanlong` | Allows access to long trigger touch bans (Cvar awc_tbanlong)
+`actwatch:triggerunban` | Allows access to trigger touch unbans (Command)
+`actwatch:triggerunbanperm` | Allows access to permanent trigger touch unbans (Duration 0)
+`actwatch:triggerunbanother` | Allows access to trigger touch unbans from other admins
 
 ## CVARs
 Cvar | Parameters | Description
