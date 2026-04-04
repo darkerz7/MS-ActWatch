@@ -3,11 +3,10 @@ using MS_ActWatch.Helpers;
 using MS_ActWatch_Shared;
 #if (USE_ENTWATCH)
 using MS_EntWatch_Shared;
-using Sharp.Modules.AdminManager.Shared;
-
 #endif
 using Sharp.Modules.ClientPreferences.Shared;
 using Sharp.Modules.LocalizerManager.Shared;
+using Sharp.Modules.AdminManager.Shared;
 using Sharp.Modules.TargetingManager.Shared;
 using Sharp.Shared;
 using Sharp.Shared.Enums;
