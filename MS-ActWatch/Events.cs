@@ -13,6 +13,7 @@ namespace MS_ActWatch
         {
             AW.LoadScheme();
             AW.LoadWhiteList();
+            SpamButtonProtect.MapStartClear();
 
             Task.Run(() =>
             {

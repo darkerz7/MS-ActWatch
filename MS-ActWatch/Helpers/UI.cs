@@ -18,6 +18,9 @@ namespace MS_ActWatch.Helpers
                 LogManager.SystemAction(ReplaceColorTags(bType ? "ActWatch.Chat.Button" : "ActWatch.Chat.Trigger", false), true, ReplaceColorTags(sPlayerInfoFormat[3], false), "", "", entity.Name, "", "", sEntityID);
             });
 
+            if (bType) if (!SpamButtonProtect.ButtonAvailableToShow(entity.Index)) return;
+            else if (!SpamButtonProtect.TriggersAvailableToShow(entity.Index)) return;
+
             if (AW.g_Scheme != null)
             {
                 foreach (var pair in AW.g_AWPlayer)

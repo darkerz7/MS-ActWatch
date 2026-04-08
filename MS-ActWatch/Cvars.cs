@@ -33,6 +33,8 @@ namespace MS_ActWatch
             g_Cvar_PlayerFormat,
             g_Cvar_SchemeName,
             g_Cvar_LowerMapname,
+            g_Cvar_ButtonSpam,
+            g_Cvar_TriggerSpam,
             g_Cvar_ServerLanguage;
 
         private void RegisterCvars()
@@ -69,6 +71,9 @@ namespace MS_ActWatch
             g_Cvar_SchemeName = _convars.CreateConVar("ms_awc_scheme_name", "default.json", "Filename for the ActWatch scheme", ConVarFlags.None);
             g_Cvar_LowerMapname = _convars.CreateConVar("ms_awc_lower_mapname", false, "Automatically lowercase map name", ConVarFlags.None);
 
+            g_Cvar_ButtonSpam = _convars.CreateConVar("ms_awc_bspamprotect", 0.0f, 0.0f, 10.0f, "The time after which the button press will be displayed again (0-10)", ConVarFlags.Notify);
+            g_Cvar_TriggerSpam = _convars.CreateConVar("ms_awc_tspamprotect", 0.0f, 0.0f, 10.0f, "The time after which the trigger touch will be displayed again (0-10)", ConVarFlags.Notify);
+
             g_Cvar_ServerLanguage = _convars.CreateConVar("ms_awc_server_lang", "en-us", "Specify the language into which the server messages should be translated", ConVarFlags.None);
 
             if (g_Cvar_ButtonBanTime != null) _convars.InstallChangeHook(g_Cvar_ButtonBanTime, OnCvarChanged_ButtonBanTime);
@@ -102,6 +107,9 @@ namespace MS_ActWatch
 
             if (g_Cvar_SchemeName != null) _convars.InstallChangeHook(g_Cvar_SchemeName, OnCvarChanged_SchemeName);
             if (g_Cvar_LowerMapname != null) _convars.InstallChangeHook(g_Cvar_LowerMapname, OnCvarChanged_LowerMapname);
+
+            if (g_Cvar_ButtonSpam != null) _convars.InstallChangeHook(g_Cvar_ButtonSpam, OnCvarChanged_ButtonSpam);
+            if (g_Cvar_TriggerSpam != null) _convars.InstallChangeHook(g_Cvar_TriggerSpam, OnCvarChanged_TriggerSpam);
 
             if (g_Cvar_ServerLanguage != null) _convars.InstallChangeHook(g_Cvar_ServerLanguage, OnCvarChanged_ServerLanguage);
         }
@@ -139,6 +147,9 @@ namespace MS_ActWatch
 
             if (g_Cvar_SchemeName != null) _convars.RemoveChangeHook(g_Cvar_SchemeName, OnCvarChanged_SchemeName);
             if (g_Cvar_LowerMapname != null) _convars.RemoveChangeHook(g_Cvar_LowerMapname, OnCvarChanged_LowerMapname);
+
+            if (g_Cvar_ButtonSpam != null) _convars.RemoveChangeHook(g_Cvar_ButtonSpam, OnCvarChanged_ButtonSpam);
+            if (g_Cvar_TriggerSpam != null) _convars.RemoveChangeHook(g_Cvar_TriggerSpam, OnCvarChanged_TriggerSpam);
 
             if (g_Cvar_ServerLanguage != null) _convars.RemoveChangeHook(g_Cvar_ServerLanguage, OnCvarChanged_ServerLanguage);
         }
@@ -329,6 +340,22 @@ namespace MS_ActWatch
             UI.CvarChangeNotify(conVar.Name, Cvar.LowerMapname.ToString(), conVar.Flags.HasFlag(ConVarFlags.Notify));
         }
 
+        private void OnCvarChanged_ButtonSpam(IConVar conVar)
+        {
+            float value = conVar.GetFloat();
+            if (value >= 0.0f && value <= 10.0f) Cvar.ButtonSpam = value;
+            else Cvar.ButtonSpam = 0;
+            UI.CvarChangeNotify(conVar.Name, Cvar.ButtonSpam.ToString(), conVar.Flags.HasFlag(ConVarFlags.Notify));
+        }
+
+        private void OnCvarChanged_TriggerSpam(IConVar conVar)
+        {
+            float value = conVar.GetFloat();
+            if (value >= 0.0f && value <= 10.0f) Cvar.TriggerSpam = value;
+            else Cvar.TriggerSpam = 0;
+            UI.CvarChangeNotify(conVar.Name, Cvar.TriggerSpam.ToString(), conVar.Flags.HasFlag(ConVarFlags.Notify));
+        }
+
         private void OnCvarChanged_ServerLanguage(IConVar conVar)
         {
             var value = conVar.GetString();
@@ -372,6 +399,9 @@ namespace MS_ActWatch
 
         public static string SchemeName = "default.json";
         public static bool LowerMapname = false;
+
+        public static float ButtonSpam = 0;
+        public static float TriggerSpam = 0;
 
         public static string ServerLanguage = "en-us";
     }

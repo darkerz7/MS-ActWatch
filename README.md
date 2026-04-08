@@ -10,6 +10,7 @@ Notify players about button and trigger(Activator) interactions
 6. Online/Offline ban/unban of button press/trigger touch
 7. API for interaction with other plugins
 8. Allows you to select the player display format
+9. Chat spam protection
 
 ## Required packages:
 1. [ModSharp](https://github.com/Kxnrl/modsharp-public)
@@ -76,6 +77,8 @@ Cvar | Parameters | Description
 `ms_awc_player_format` | `<0-3>` | Changes the way player information is displayed by default (0 - Only Nickname, 1 - Nickname and UserID, 2 - Nickname and SteamID, 3 - Nickname, UserID and SteamID). (Default 3)
 `ms_awc_scheme_name` | `<string>` | Filename for the scheme. (Default default.json)
 `ms_awc_lower_mapname` | `<false-true>` | Automatically lowercase map name. (Default false)
+`ms_awc_bspamprotect` | `<0.0f-10.0f>` | The time after which the button press will be displayed again (0-10). (Default 0.0f)
+`ms_awc_tspamprotect` | `<0.0f-10.0f>` | The time after which the trigger touch will be displayed again (0-10). (Default 0.0f)
 `ms_awc_server_lang` | `<string>` | Specify the language into which the server messages should be translated. (Default en-us)
 
 ## Commands
