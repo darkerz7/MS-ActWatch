@@ -37,7 +37,12 @@ namespace MS_ActWatch
             _physicsQuery = sharedSystem.GetPhysicsQueryManager();
             _dllPath = dllPath;
             _sharpPath = sharpPath;
-            _virtualHook = sharedSystem.GetHookManager().CreateVirtualHook();
+            _virtualHook_StartTouch_Once = sharedSystem.GetHookManager().CreateVirtualHook();
+            _virtualHook_StartTouch_Multiple = sharedSystem.GetHookManager().CreateVirtualHook();
+            _virtualHook_Touch_Once = sharedSystem.GetHookManager().CreateVirtualHook();
+            _virtualHook_Touch_Multiple = sharedSystem.GetHookManager().CreateVirtualHook();
+            _virtualHook_EndTouch_Once = sharedSystem.GetHookManager().CreateVirtualHook();
+            _virtualHook_EndTouch_Multiple = sharedSystem.GetHookManager().CreateVirtualHook();
         }
 #pragma warning disable CA2211
         public static IModSharp? _modSharp;
@@ -49,7 +54,12 @@ namespace MS_ActWatch
         public static string? _dllPath;
         public static string? _sharpPath;
         private IDisposable? _callback;
-        private readonly IVirtualHook _virtualHook;
+        private readonly IVirtualHook _virtualHook_StartTouch_Once;
+        private readonly IVirtualHook _virtualHook_StartTouch_Multiple;
+        private readonly IVirtualHook _virtualHook_Touch_Once;
+        private readonly IVirtualHook _virtualHook_Touch_Multiple;
+        private readonly IVirtualHook _virtualHook_EndTouch_Once;
+        private readonly IVirtualHook _virtualHook_EndTouch_Multiple;
         public static ITargetingManager? _targetingManager;
 #pragma warning restore CA2211
 
@@ -129,6 +139,12 @@ namespace MS_ActWatch
 
         public void Shutdown()
         {
+            _virtualHook_StartTouch_Once.Uninstall();
+            _virtualHook_StartTouch_Multiple.Uninstall();
+            _virtualHook_Touch_Once.Uninstall();
+            _virtualHook_Touch_Multiple.Uninstall();
+            _virtualHook_EndTouch_Once.Uninstall();
+            _virtualHook_EndTouch_Multiple.Uninstall();
             LogManager.UnInit();
             _modSharp!.RemoveGameListener(this);
             _entities!.RemoveEntityListener(this);

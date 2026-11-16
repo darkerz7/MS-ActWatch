@@ -2,6 +2,7 @@
 using MS_ActWatch.Helpers;
 using Sharp.Shared.Enums;
 using Sharp.Shared.GameEntities;
+using Sharp.Shared.Hooks;
 using Sharp.Shared.Objects;
 using System.Runtime.InteropServices;
 
@@ -107,15 +108,20 @@ namespace MS_ActWatch
             AW.g_AWPlayer.Remove(client);   //Remove AWPlayer
         }
 
-        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_StartTouch;
+        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_StartTouch_Once;
+        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_StartTouch_Multiple;
         private unsafe bool Hook_Triggers_StartTouch()
         {
             var vFuncIndex = _modSharp!.GetGameData().GetVFuncIndex("CBaseEntity::StartTouch");
-            _virtualHook.Prepare("server", "CTriggerOnce", vFuncIndex, (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_StartTouch));
-            if (!_virtualHook.Install()) return false;
-            _virtualHook.Prepare("server", "CTriggerMultiple", vFuncIndex, (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_StartTouch));
-            if (!_virtualHook.Install()) return false;
-            CBaseEntity_StartTouch = (delegate* unmanaged<nint, nint, bool>)_virtualHook.Trampoline;
+            var callback = (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_StartTouch);
+
+            _virtualHook_StartTouch_Once.Prepare("server", "CTriggerOnce", vFuncIndex, callback);
+            if (!_virtualHook_StartTouch_Once.Install()) return false;
+            CBaseEntity_StartTouch_Once = (delegate* unmanaged<nint, nint, bool>)_virtualHook_StartTouch_Once.Trampoline;
+
+            _virtualHook_StartTouch_Multiple.Prepare("server", "CTriggerMultiple", vFuncIndex, callback);
+            if (!_virtualHook_StartTouch_Multiple.Install()) return false;
+            CBaseEntity_StartTouch_Multiple = (delegate* unmanaged<nint, nint, bool>)_virtualHook_StartTouch_Multiple.Trampoline;
 
             return true;
         }
@@ -129,7 +135,15 @@ namespace MS_ActWatch
             {
                 foreach (var triggerid in AW.g_WhiteList.Triggers)
                 {
-                    if (string.Equals(triggerid, entity.HammerId, StringComparison.OrdinalIgnoreCase)) return CBaseEntity_StartTouch(@ent, @act);
+                    if (string.Equals(triggerid, entity.HammerId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return entity.Classname switch
+                        {
+                            "trigger_once" => CBaseEntity_StartTouch_Once(@ent, @act),
+                            "trigger_multiple" => CBaseEntity_StartTouch_Multiple(@ent, @act),
+                            _ => true
+                        };
+                    }
                 }
             }
 
@@ -138,18 +152,29 @@ namespace MS_ActWatch
                 if (Cvar.TriggerWatchOnce && entity.Classname.StartsWith("trigger_o")) return false;
                 else if (Cvar.TriggerWatchMultiple) return false;
             }
-            return CBaseEntity_StartTouch(@ent, @act);
+
+            return entity.Classname switch
+            {
+                "trigger_once" => CBaseEntity_StartTouch_Once(@ent, @act),
+                "trigger_multiple" => CBaseEntity_StartTouch_Multiple(@ent, @act),
+                _ => true
+            };
         }
 
-        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_EndTouch;
+        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_EndTouch_Once;
+        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_EndTouch_Multiple;
         private unsafe bool Hook_Triggers_EndTouch()
         {
             var vFuncIndex = _modSharp!.GetGameData().GetVFuncIndex("CBaseEntity::EndTouch");
-            _virtualHook.Prepare("server", "CTriggerOnce", vFuncIndex, (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_EndTouch));
-            if (!_virtualHook.Install()) return false;
-            _virtualHook.Prepare("server", "CTriggerMultiple", vFuncIndex, (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_EndTouch));
-            if (!_virtualHook.Install()) return false;
-            CBaseEntity_EndTouch = (delegate* unmanaged<nint, nint, bool>)_virtualHook.Trampoline;
+            var callback = (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_EndTouch);
+
+            _virtualHook_EndTouch_Once.Prepare("server", "CTriggerOnce", vFuncIndex, callback);
+            if (!_virtualHook_EndTouch_Once.Install()) return false;
+            CBaseEntity_EndTouch_Once = (delegate* unmanaged<nint, nint, bool>)_virtualHook_EndTouch_Once.Trampoline;
+
+            _virtualHook_EndTouch_Multiple.Prepare("server", "CTriggerMultiple", vFuncIndex, callback);
+            if (!_virtualHook_EndTouch_Multiple.Install()) return false;
+            CBaseEntity_EndTouch_Multiple = (delegate* unmanaged<nint, nint, bool>)_virtualHook_EndTouch_Multiple.Trampoline;
 
             return true;
         }
@@ -163,7 +188,15 @@ namespace MS_ActWatch
             {
                 foreach (var triggerid in AW.g_WhiteList.Triggers)
                 {
-                    if (string.Equals(triggerid, entity.HammerId, StringComparison.OrdinalIgnoreCase)) return CBaseEntity_EndTouch(@ent, @act);
+                    if (string.Equals(triggerid, entity.HammerId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return entity.Classname switch
+                        {
+                            "trigger_once" => CBaseEntity_EndTouch_Once(@ent, @act),
+                            "trigger_multiple" => CBaseEntity_EndTouch_Multiple(@ent, @act),
+                            _ => true
+                        };
+                    }
                 }
             }
 
@@ -172,18 +205,29 @@ namespace MS_ActWatch
                 if (Cvar.TriggerWatchOnce && entity.Classname.StartsWith("trigger_o")) return false;
                 else if (Cvar.TriggerWatchMultiple) return false;
             }
-            return CBaseEntity_EndTouch(@ent, @act);
+
+            return entity.Classname switch
+            {
+                "trigger_once" => CBaseEntity_EndTouch_Once(@ent, @act),
+                "trigger_multiple" => CBaseEntity_EndTouch_Multiple(@ent, @act),
+                _ => true
+            };
         }
 
-        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_Touch;
+        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_Touch_Once;
+        private static unsafe delegate* unmanaged<nint, nint, bool> CBaseEntity_Touch_Multiple;
         private unsafe bool Hook_Triggers_Touch()
         {
             var vFuncIndex = _modSharp!.GetGameData().GetVFuncIndex("CBaseEntity::Touch");
-            _virtualHook.Prepare("server", "CTriggerOnce", vFuncIndex, (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_Touch));
-            if (!_virtualHook.Install()) return false;
-            _virtualHook.Prepare("server", "CTriggerMultiple", vFuncIndex, (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_Touch));
-            if (!_virtualHook.Install()) return false;
-            CBaseEntity_Touch = (delegate* unmanaged<nint, nint, bool>)_virtualHook.Trampoline;
+            var callback = (nint)(delegate* unmanaged<nint, nint, bool>)(&Hook_CBaseEntity_Touch);
+
+            _virtualHook_Touch_Once.Prepare("server", "CTriggerOnce", vFuncIndex, callback);
+            if (!_virtualHook_Touch_Once.Install()) return false;
+            CBaseEntity_Touch_Once = (delegate* unmanaged<nint, nint, bool>)_virtualHook_Touch_Once.Trampoline;
+
+            _virtualHook_Touch_Multiple.Prepare("server", "CTriggerMultiple", vFuncIndex, callback);
+            if (!_virtualHook_Touch_Multiple.Install()) return false;
+            CBaseEntity_Touch_Multiple = (delegate* unmanaged<nint, nint, bool>)_virtualHook_Touch_Multiple.Trampoline;
 
             return true;
         }
@@ -197,7 +241,15 @@ namespace MS_ActWatch
             {
                 foreach(var triggerid in AW.g_WhiteList.Triggers)
                 {
-                    if (string.Equals(triggerid, entity.HammerId, StringComparison.OrdinalIgnoreCase)) return CBaseEntity_Touch(@ent, @act);
+                    if (string.Equals(triggerid, entity.HammerId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return entity.Classname switch
+                        {
+                            "trigger_once" => CBaseEntity_Touch_Once(@ent, @act),
+                            "trigger_multiple" => CBaseEntity_Touch_Multiple(@ent, @act),
+                            _ => true
+                        };
+                    }
                 }
             }
 
@@ -206,7 +258,13 @@ namespace MS_ActWatch
                 if (Cvar.TriggerWatchOnce && entity.Classname.StartsWith("trigger_o")) return false;
                 else if (Cvar.TriggerWatchMultiple) return false;
             }
-            return CBaseEntity_Touch(@ent, @act);
+
+            return entity.Classname switch
+            {
+                "trigger_once" => CBaseEntity_Touch_Once(@ent, @act),
+                "trigger_multiple" => CBaseEntity_Touch_Multiple(@ent, @act),
+                _ => true
+            };
         }
 
         private static EHookAction OnTriggerTouch(IBaseEntity entity, IBaseEntity? activator)
